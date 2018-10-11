@@ -1,5 +1,5 @@
 Symfony Correlation framework integration
 =========================================
 
-Symfony integration of manomano-tech/request-correlation
+Symfony integration of manomano-tech/correlation-ids
 
