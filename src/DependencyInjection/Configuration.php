@@ -17,9 +17,9 @@ final class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('mm_correlation');
         /** @var ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->root('mm_correlation');
+        $rootNode = $treeBuilder->getRootNode();
         $children = $rootNode->children();
 
         $children->append($this->addGeneratorNode(true));
@@ -42,9 +42,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addHeaderNode(bool $includeCurrentHeaderName = true, bool $withDefault = false): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('header_names');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('header_names');
+        $node = $treeBuilder->getRootNode();
         if ($withDefault) {
             $node->addDefaultsIfNotSet();
         }
@@ -68,9 +68,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addListenerNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('listeners');
         /** @var ArrayNodeDefinition $listenerNode */
-        $listenerNode = $treeBuilder->root('listeners');
+        $listenerNode = $treeBuilder->getRootNode();
         $listenerNode->addDefaultsIfNotSet()
                      ->children()
                      ->append($this->addConsoleListenerNode())
@@ -82,9 +82,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addConsoleListenerNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('console');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('console');
+        $node = $treeBuilder->getRootNode();
         $children = $node
             ->info('configure the console listener')
             ->canBeDisabled()
@@ -98,9 +98,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addRequestListenerNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('request');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('request');
+        $node = $treeBuilder->getRootNode();
         $children = $node
             ->info('configure the request listener')
             ->canBeDisabled()
@@ -115,9 +115,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addResponseListenerNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('response');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('response');
+        $node = $treeBuilder->getRootNode();
         $children = $node
             ->info('configure the response listener')
             ->canBeDisabled()
@@ -131,9 +131,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addPluginNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('plugins');
         /** @var ArrayNodeDefinition $listenerNode */
-        $listenerNode = $treeBuilder->root('plugins');
+        $listenerNode = $treeBuilder->getRootNode();
         $listenerNode->addDefaultsIfNotSet()
                      ->children()
                      ->append($this->addGuzzleNode())
@@ -145,9 +145,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addGuzzleNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('guzzle');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('guzzle');
+        $node = $treeBuilder->getRootNode();
 
         interface_exists(MiddlewareInterface::class) ? $node->canBeDisabled() : $node->canBeEnabled();
 
@@ -162,9 +162,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addHTTPlugNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('httplug');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('httplug');
+        $node = $treeBuilder->getRootNode();
 
         class_exists(CorrelationIdHTTPlug::class) ? $node->canBeDisabled() : $node->canBeEnabled();
 
@@ -180,9 +180,9 @@ final class Configuration implements ConfigurationInterface
 
     private function addMonologNode(): ArrayNodeDefinition
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('monolog');
         /** @var ArrayNodeDefinition $node */
-        $node = $treeBuilder->root('monolog');
+        $node = $treeBuilder->getRootNode();
 
         if (class_exists(AddProcessorsPass::class) && class_exists(CorrelationIdProcessor::class)) {
             $node->canBeDisabled();
